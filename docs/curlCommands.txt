@@ -1,0 +1,49 @@
+curl commands
+Note* : All commands done on Windows laptop, with Ubuntu shell.
+
+For all these commands, start the server, open the shell terminal, then put in the desired command in the shell terminal.
+
+1) To call the ping, use
+    url -i -X GET localhost:8080/ping
+
+2) To Add a food item, or a drink item
+
+    Note*: this way is more friendly for the shell - adding the volume or weight before the name
+        ----     curl -i -H "Content-Type: application/json" -X POST -d "{\"<volume/weight>\":<VOLUME/WEIGHT>,\"name\": \"<NAME>\", \"notes\": \"<NOTES>\" , \"price\":<PRICE>, \"expirationDate\":\"<LOCATE_DATE_TIME>\"}" localhost:8080/<addFood/addDrink>/<WEIGHT/VOLUME>
+        Example: curl -i -H "Content-Type: application/json" -X POST -d "{\"volume\":2.0,\"name\":\"First Item Listed\",\"notes\":\"\",\"price\":9.0,\"expirationDate\":\"2011-12-24T23:59\"}" localhost:8080/addDrink/2.0
+
+    curl -i -H "Content-Type: application/json" -X POST -d "{\"name\": \"<NAME>\", \"notes\": \"<NOTES>\" , \"price\":<PRICE>, \"expirationDate\":\"<LOCATE_DATE_TIME>\"}" localhost:8080/addFood/<WEIGHT>
+    curl -i -H "Content-Type: application/json" -X POST -d "{\"name\": \"<NAME>\", \"notes\": \"<NOTES>\" , \"price\":<PRICE>, \"expirationDate\":\"<LOCATE_DATE_TIME>\"}" localhost:8080/addDrink/<VOLUME>
+
+    example: curl -i -H "Content-Type: application/json" -X POST -d "{\"name\": \"English muffins\", \"notes\": \"\" , \"price\":6.0, \"expirationDate\":\"2021-12-25T23:59\"}" localhost:8080/addFood/390.5
+    example: curl -i -H "Content-Type: application/json" -X POST -d "{\"name\": \"Drink item\", \"notes\": \"something\" , \"price\":6.0, \"expirationDate\":\"2021-12-30T23:59\"}" localhost:8080/addDrink/70
+
+3)Removing Items
+    curl -H "Content-Type: application/json" -X POST localhost:8080/removeItem/<INDEX>
+    curl -X POST localhost:8080/removeItem/<INDEX>
+
+    Example:
+        curl -H "Content-Type: application/json" -X POST localhost:8080/removeItem/0
+        curl -X POST localhost:8080/removeItem/0
+
+4) 4 methods of listing all different lists (listAll, listExpired, listNonExpired, listExpiringIn7Days)
+    curl -i -X GET localhost:8080/listAll
+    curl -i -X GET localhost:8080/listExpired
+    curl -i -X GET localhost:8080/listNonExpired
+    curl -i -X GET localhost:8080/listExpiringIn7Days
+
+5) exit
+    curl -i -X GET localhost:8080/exit
+
+**EXTRA
+6) There are extra methods that return a list of quantities and item types of the different lists already gotten
+   - For each of the listAll, listExpired, listNonExpired, listExpiringIn7Days, you can get the list of their
+     item types(food/drink) and quantities(volume/weight)
+         curl -i -X GET localhost:8080/getQuantities
+         curl -i -X GET localhost:8080/getTypes
+         curl -i -X GET localhost:8080/getExpQuantities
+         curl -i -X GET localhost:8080/getExpTypes
+         curl -i -X GET localhost:8080/getNonExpQuantities
+         curl -i -X GET localhost:8080/getNonExpTypes
+         curl -i -X GET localhost:8080/getWeekExpQuantities
+         curl -i -X GET localhost:8080/geWeekExpTypes
